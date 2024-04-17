@@ -19,9 +19,9 @@ const authUser = asyncHandler(async (req, res) => {
 
     // Check the user and password match
     if (user && await bcrypt.compare(password, user.password)) {
-        generatedToken(res, user.id); 
+        generatedToken(res, user.id);
         res.status(201).json({
-            id: user.id, 
+            id: user.id,
             email: user.email,
             name: user.username
         });
@@ -35,7 +35,7 @@ const authUser = asyncHandler(async (req, res) => {
 // @desc register user
 // route Post /api/users/register
 // @access Public
-const registerUser = asyncHandler(async (req,res) => {
+const registerUser = asyncHandler(async (req, res) => {
     const {
         username, password, email, first_name, last_name, logo, company_name,
         address, communication, role, is_active, team_name, channel_ptn_id, contact_number
@@ -48,19 +48,19 @@ const registerUser = asyncHandler(async (req,res) => {
         throw new Error('User already exists');
     }
 
-      // Hash password
-      const salt = await bcrypt.genSalt(10);  // 10 rounds is generally enough, more rounds are more secure but slower
-      const hashedPassword = await bcrypt.hash(password, salt);
-  
+    // Hash password
+    const salt = await bcrypt.genSalt(10);  // 10 rounds is generally enough, more rounds are more secure but slower
+    const hashedPassword = await bcrypt.hash(password, salt);
+
 
     // Create new user with all the fields
     const user = await User.create({
-        username, password:hashedPassword, email, first_name, last_name, logo, company_name,
+        username, password: hashedPassword, email, first_name, last_name, logo, company_name,
         address, communication, role, is_active, team_name, channel_ptn_id, contact_number
     });
 
     if (user) {
-        const token = generatedToken(res,user.id);  // Assuming generatedToken function returns a token
+        const token = generatedToken(res, user.id);  // Assuming generatedToken function returns a token
 
         res.status(201).json({
             id: user.id,
@@ -75,13 +75,13 @@ const registerUser = asyncHandler(async (req,res) => {
         throw new Error('Invalid user data');
     }
 });
-    
+
 
 
 // @desc logout user
 // route Post /api/users/logout
 // @access Public
-const logoutUser = asyncHandler(async (req,res) => {
+const logoutUser = asyncHandler(async (req, res) => {
 
     res.clearCookie('accessToken');
     res.clearCookie('refreshToken');
@@ -91,56 +91,56 @@ const logoutUser = asyncHandler(async (req,res) => {
 // @desc get user profile
 // route Get /api/users/profile
 // @access Private
-const getUserProfile = asyncHandler(async (req,res) => {
+const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.user.id);
 
-    if(user){
+    if (user) {
         res.json({
-            id:user.id,
-            name:user.username,
-            email:user.email
+            id: user.id,
+            name: user.username,
+            email: user.email
         });
     }
-    else{
+    else {
         res.status(404)
         throw new Error('User not found')
     }
-  
+
 })
 
 // @desc update user profile
 // route Put /api/users/profile
 // @access Private
-const updateUserProfile = asyncHandler(async (req,res) => {
+const updateUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.user.id)
 
-    if(user){
+    if (user) {
         user.username = req.body.username || user.username;
         user.email = req.body.email || user.email;
 
-        if(req.body.password){
+        if (req.body.password) {
             user.password = req.body.password
         }
 
         const updateUser = await user.save()
 
         res.json({
-            id:updateUser.id,
-            name:updateUser.username,
-            email:updateUser.email
+            id: updateUser.id,
+            name: updateUser.username,
+            email: updateUser.email
         })
     }
-    else{
+    else {
         res.status(404)
         throw new Error('User not found')
     }
-    res.status(200).json({message:'Update User Profile'})
+    res.status(200).json({ message: 'Update User Profile' })
 })
 
 
-const refreshToken = asyncHandler(async (req,res) => {
+const refreshToken = asyncHandler(async (req, res) => {
     const refreshToken = req.cookies.refreshToken;
-    
+
 
     if (!refreshToken) {
         return res.status(401).json({ message: 'No refresh token provided' });
@@ -156,20 +156,29 @@ const refreshToken = asyncHandler(async (req,res) => {
 })
 
 
-const homeBanner = asyncHandler(async(req ,res) => {
-    const {
-        project_name, redirect_link, banner_img, is_active, created_at
-    } = req.body;
+const homeBanner = asyncHandler(async (req, res) => {
+    const user = await User.findByPk(req.user.id);
+    console.log(user);
+    if (user.role === '1') {
+        const {
+            project_name, redirect_link, banner_img, is_active, created_at
+        } = req.body;
 
-    const homebannerDetails = await HomeSchema.create({
-        project_name, redirect_link, banner_img, is_active, created_at
-    });
-    if (homebannerDetails) {
-        res.status(201).json(homebannerDetails);
-    } else {
-        res.status(400);
-        throw new Error('Invalid data');
+        const homebannerDetails = await HomeSchema.create({
+            project_name, redirect_link, banner_img, is_active, created_at
+        });
+        if (homebannerDetails) {
+            res.status(201).json(homebannerDetails);
+        } else {
+            res.status(400);
+            throw new Error('Invalid data');
+        }
     }
+    else{
+        res.status(403);
+        throw new Error('permission denied');
+    }
+
 })
 
 

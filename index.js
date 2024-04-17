@@ -9,8 +9,6 @@ import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config()
 
-// commented by ramesh
-// ok good zaid changes 
 
 const port = process.env.PORT || 5000;
 
