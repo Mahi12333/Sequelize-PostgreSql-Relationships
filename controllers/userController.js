@@ -181,6 +181,11 @@ const homeBanner = asyncHandler(async (req, res) => {
 
 })
 
+const getHomeBanner = asyncHandler(async(req, res)=>{
+    const getalldata= await HomeSchema.findAll();
+    console.log(getalldata);
+
+})
 
 export {
     authUser,
@@ -189,5 +194,6 @@ export {
     getUserProfile,
     updateUserProfile,
     refreshToken,
-    homeBanner
+    homeBanner,
+    getHomeBanner
 }
