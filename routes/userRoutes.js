@@ -12,5 +12,6 @@ router.post('/auth' , authUser)
 router.post('/homebanner' , protect, homeBanner)
 router.post('/refreshToken',refreshToken)
 router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile)
+router.get('homebanner', getHomeBanner)
 
 export default router;
