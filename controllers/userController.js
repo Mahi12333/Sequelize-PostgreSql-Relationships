@@ -5,6 +5,15 @@ import generatedToken from '../utils/generatedToken.js';
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import HomeSchema from '../models/homeModel.js';
+import ProjectDesignType from '../models/ProjectDesignModel.js';
+
+
+
+
+
+
+
+
 
 
 
@@ -158,7 +167,6 @@ const refreshToken = asyncHandler(async (req, res) => {
 
 const homeBanner = asyncHandler(async (req, res) => {
     const user = await User.findByPk(req.user.id);
-    console.log(user);
     if (user.role === '1') {
         const {
             project_name, redirect_link, banner_img, is_active, created_at
@@ -182,9 +190,26 @@ const homeBanner = asyncHandler(async (req, res) => {
 })
 
 const getHomeBanner = asyncHandler(async(req, res)=>{
-    const getalldata= await HomeSchema.findAll();
-    console.log(getalldata);
+    const getallHomeBanner = await HomeSchema.findAll({where: {is_active : '1'}});
+    if(getallHomeBanner){
+        res.status(200).json({data:getallHomeBanner, message: 'banner images load succssefully' });
+    }
+    else{
+        res.status(403).json({ message: 'data is not available' }); 
+    }
 
+})
+
+const addProjectFiles = asyncHandler(async(req, res)=>{
+    for (const file of req.files){
+        await ProjectDesignType.create({
+            project_id:req.body.project_id,
+            file_name:file.originalname,
+            project_design_type:req.body.project_design_type,
+            file_path:file.path
+        })
+    }
+    res.status(201).json({message:'File uploaded successfully'});
 })
 
 export {
@@ -195,5 +220,6 @@ export {
     updateUserProfile,
     refreshToken,
     homeBanner,
-    getHomeBanner
+    getHomeBanner,
+    addProjectFiles
 }
