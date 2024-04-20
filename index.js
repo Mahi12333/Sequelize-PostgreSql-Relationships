@@ -3,12 +3,12 @@ import path from "path"
 import dotenv from "dotenv"
 import cors from "cors"
 import {connectDB} from "./config/db.js";
-import userRoutes from './routes/userRoutes.js'
+import userRoutes from './routes/userRoutes.js';
+import ramRoutes from './routes/ramRoutes.js';
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
 
 dotenv.config()
-
 
 
 
@@ -32,7 +32,8 @@ app.use(cors((
     }
 )))
 
-app.use('/api/users', userRoutes)
+app.use('/api/users', userRoutes);
+app.use('/api/users', ramRoutes);
 
 if (process.env.NODE_ENV === 'development') {
     const __dirname = path.resolve();
