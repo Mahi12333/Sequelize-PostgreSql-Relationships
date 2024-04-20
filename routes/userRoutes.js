@@ -1,5 +1,5 @@
 import express from "express"
-import { authUser,registerUser,logoutUser ,getUserProfile,updateUserProfile,refreshToken, homeBanner, getHomeBanner, addProjectFiles} from "../controllers/userController.js";
+import { authUser,registerUser,logoutUser ,getUserProfile,updateUserProfile,refreshToken, homeBanner, getHomeBanner, addProjectFiles, viewProjectFiles, deleteProjectFiles} from "../controllers/userController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import multer from "multer";
 import { adminChecker } from "../middleware/adminMiddleware.js";
@@ -46,5 +46,7 @@ router.post('/refreshToken',refreshToken)
 router.route('/profile').get(protect, getUserProfile).put(protect, updateUserProfile)
 router.get('/homebanner', getHomeBanner)
 router.post('/addProjectFiles' , protect , adminChecker, upload.array('images', 10) ,addProjectFiles)
+router.post('/viewProjectFiles' , protect , adminChecker ,viewProjectFiles)
+router.post('/deleteProjectFiles' , protect , adminChecker ,deleteProjectFiles)
 
 export default router;
