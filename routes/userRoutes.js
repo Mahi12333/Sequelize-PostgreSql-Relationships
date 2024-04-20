@@ -9,7 +9,7 @@ import { adminChecker } from "../middleware/adminMiddleware.js";
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let dest;
-        console.log(file)
+        console.log(req.body)
         if (file.mimetype.startsWith('image/')) {
             dest = 'uploads/project/images';
         } else if (file.mimetype === 'video/mp4') {

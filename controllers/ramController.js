@@ -1,9 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Myfeeds from '../models/myfeedsModel.js';
 import homeBannerSliderM from '../models/homebannersliderModel.js';
-// import generatedToken from '../utils/generatedToken.js';
-// import bcrypt from "bcryptjs";
-// import jwt from "jsonwebtoken";
+
 
 const myfeeds = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
