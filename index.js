@@ -35,14 +35,18 @@ app.use(cors((
 app.use('/api/users', userRoutes);
 app.use('/api/users', ramRoutes);
 
-if (process.env.NODE_ENV === 'development') {
-    const __dirname = path.resolve();
-    app.use(express.static(path.join(__dirname, 'frontend/dist')))
-    app.get('*' , (req, res) => res.sendFile(path.resolve(__dirname, 'frontend' , 'dist', 'index.html')));
-}
-else{
-    app.get('/', (res,req) => res.send('Server is ready'));
-}
+
+const __dirname = path.resolve();
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
+// if (process.env.NODE_ENV === 'development') {
+//     const __dirname = path.resolve();
+//     app.use(express.static(path.join(__dirname, 'frontend/dist')))
+//     app.get('*' , (req, res) => res.sendFile(path.resolve(__dirname, 'frontend' , 'dist', 'index.html')));
+// }
+// else{
+    // app.get('*', (res,req) => res.send('Server is ready'));
+// }
 
 
 app.use(notFound);

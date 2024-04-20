@@ -6,6 +6,7 @@ import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
 import HomeSchema from '../models/homeModel.js';
 import ProjectDesignType from '../models/ProjectDesignModel.js';
+import fs from 'fs/promises'
 
 
 
@@ -182,34 +183,72 @@ const homeBanner = asyncHandler(async (req, res) => {
             throw new Error('Invalid data');
         }
     }
-    else{
+    else {
         res.status(403);
         throw new Error('permission denied');
     }
 
 })
 
-const getHomeBanner = asyncHandler(async(req, res)=>{
-    const getallHomeBanner = await HomeSchema.findAll({where: {is_active : '1'}});
-    if(getallHomeBanner){
-        res.status(200).json({data:getallHomeBanner, message: 'banner images load succssefully' });
+const getHomeBanner = asyncHandler(async (req, res) => {
+    const getallHomeBanner = await HomeSchema.findAll({ where: { is_active: '1' } });
+    if (getallHomeBanner) {
+        res.status(200).json({ data: getallHomeBanner, message: 'banner images load succssefully' });
     }
-    else{
-        res.status(403).json({ message: 'data is not available' }); 
+    else {
+        res.status(403).json({ message: 'data is not available' });
     }
 
 })
 
-const addProjectFiles = asyncHandler(async(req, res)=>{
-    for (const file of req.files){
+const addProjectFiles = asyncHandler(async (req, res) => {
+    for (const file of req.files) {
         await ProjectDesignType.create({
-            project_id:req.body.project_id,
-            file_name:file.originalname,
-            project_design_type:req.body.project_design_type,
-            file_path:file.path
+            project_id: req.body.project_id,
+            file_name: file.originalname,
+            project_design_type: req.body.project_design_type,
+            file_path: file.path
         })
     }
-    res.status(201).json({message:'File uploaded successfully'});
+    res.status(201).json({ message: 'File uploaded successfully' });
+})
+const viewProjectFiles = asyncHandler(async (req, res) => {
+    const { project_id, project_design_type } = req.body
+    const projectFiles = await ProjectDesignType.findAll({
+        where: {
+            project_id,
+            project_design_type
+        }
+    });
+    res.status(200).json(projectFiles);
+})
+const deleteProjectFiles = asyncHandler(async (req, res) => {
+
+    const { id } = req.body;
+   
+    const projectFile = await ProjectDesignType.findByPk(id);
+    if (!projectFile) {
+        return res.status(404).json({ message: 'No project files found with the provided ID.' })
+    }
+
+    let filePath = projectFile.file_path;
+    filePath = filePath.replace(/\\/g, '/');
+
+    await ProjectDesignType.destroy({
+        where: {
+            id: id
+        }
+    })
+
+    // Delete the file from the file system
+    const fileExists = await fs.access(filePath).then(() => true).catch(() => false);
+        if (fileExists) {
+            // Delete the file from the file system
+            await fs.unlink(filePath);
+        } else {
+            console.warn('File does not exist:', filePath);
+        }
+    res.status(200).json({ message: 'Project file and associated file deleted successfully.' });
 })
 
 export {
@@ -221,5 +260,7 @@ export {
     refreshToken,
     homeBanner,
     getHomeBanner,
-    addProjectFiles
+    addProjectFiles,
+    viewProjectFiles,
+    deleteProjectFiles
 }
