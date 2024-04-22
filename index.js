@@ -2,11 +2,13 @@ import  express  from "express";
 import path from "path"
 import dotenv from "dotenv"
 import cors from "cors"
-import {connectDB} from "./config/db.js";
+import {connectDB, sequelize} from "./config/db.js";
 import userRoutes from './routes/userRoutes.js';
 import ramRoutes from './routes/ramRoutes.js';
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import bodyParser from "body-parser";
+
 
 dotenv.config()
 
@@ -51,7 +53,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(notFound);
 app.use(errorHandler);
-
+sequelize.sync({ logging: console.log })
 app.listen(port , () => console.log(`Server started on port ${port}`));
 
 // /zassj
