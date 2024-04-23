@@ -77,6 +77,21 @@ const AddLikesFeeds = asyncHandler(async(req, res)=>{
     {
         res.status(403).json({ message: 'Project ID Mandatory.' });
     }
+    const checklike = await UserLikes.findOne({where: {'user_id':user_id, 'pid':project_id, 'type':'feeds'}});
+    if(checklike)
+    {
+        await UserLikes.destroy({where:{'user_id':user_id, 'pid':project_id, 'type':'feeds'}});
+        res.status(200).json({message: 'Unlike.'});
+    }
+    else{
+        const user = await UserLikes.create({
+            user_id:user_id, 
+            pid:project_id,
+            type:'feeds'
+        });
+        res.status(200).json({message: 'Like.'});
+    }
+    
 });
 
 export {
