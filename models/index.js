@@ -10,8 +10,9 @@ import HomeBannerSlider from "./homebannersliderModel.js";
 import MyFeeds from "./myfeedsModel.js";
 import Project from "./projectModel.js";
 import User from "./userModel.js";
+import UserLikes from "./likeModel.js";
 
 
 
 
-export  {Material,Place,Amenity,Commission,HomeBannerSlider,HomeSchema,MyFeeds,Offer,Payment,ProjectDesignType,Project,User}
+export  {Material,Place,Amenity,Commission,HomeBannerSlider,HomeSchema,MyFeeds,Offer,Payment,ProjectDesignType,Project,User, UserLikes}

@@ -1,12 +1,10 @@
 import asyncHandler from 'express-async-handler';
-import MyfeedsMo from '../models/myfeedsModel.js';
-import homeBannerSliderM from '../models/homebannersliderModel.js';
-import UserLikes from '../models/likeModel.js';
+import { Material, Place, Amenity, Commission, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User, UserLikes } from '../models/index.js';
 
 const myfeeds = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
         let filePath = file.path.replace(/\\/g, '/');   
-        const user = await MyfeedsMo.create({
+        const user = await MyFeeds.create({
             project_name:req.body.project_name, 
             caption:req.body.caption, 
             project_type:req.body.project_type, 
@@ -19,7 +17,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 });
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await MyfeedsMo.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyFeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
     
     if(MyfeedsData)
     {
@@ -56,7 +54,7 @@ const homeBannerSliders = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Slider home banner Submitted successfully' });    
 });
 const getHomeBannerSlider=asyncHandler(async(req, res)=>{
-    const MybannserData = await homeBannerSliderM.findAll({ where: {'is_active':'1'} },{order: [['id', 'ASC']]});
+    const MybannserData = await HomeBannerSlider.findAll({ where: {'is_active':'1'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MybannserData)
     {
@@ -98,7 +96,7 @@ export {
     myfeeds,
     GetMyFeeds,
     GetMyFeedsDraft,
-    homeBannerSlider,
+    homeBannerSliders,
     getHomeBannerSlider,
     AddLikesFeeds
 }
