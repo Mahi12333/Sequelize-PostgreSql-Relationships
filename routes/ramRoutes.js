@@ -39,7 +39,7 @@ const router = express.Router()
 router.post('/myfeeds', upload.array('assets_banner', 1), myfeeds);
 router.get('/myfeeds/active', GetMyFeeds);
 router.get('/myfeeds/draft', GetMyFeedsDraft);
-router.post('/slider', uploadslider.array('banner', 1), homeBannerSlider);
+router.post('/slider', uploadslider.array('banner', 1), homeBannerSliders);
 router.get('/slider', getHomeBannerSlider);
 router.post('/likes', AddLikesFeeds);
 

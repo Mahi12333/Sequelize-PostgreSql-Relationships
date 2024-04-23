@@ -1,12 +1,16 @@
 
 import asyncHandler from 'express-async-handler'
-import User from '../models/userModel.js';
 import generatedToken from '../utils/generatedToken.js';
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import HomeSchema from '../models/homeModel.js';
-import ProjectDesignType from '../models/ProjectDesignModel.js';
+import { Material, Place, Amenity, Commission, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
 import fs from 'fs/promises'
+
+
+
+
+
+
 
 
 
@@ -167,14 +171,13 @@ const refreshToken = asyncHandler(async (req, res) => {
 
 
 const homeBanner = asyncHandler(async (req, res) => {
-    const user = await User.findByPk(req.user.id);
-    if (user.role === '1') {
+       console.log(req.file);
         const {
-            project_name, redirect_link, banner_img, is_active, created_at
+            project_name, redirect_link, is_active, created_at
         } = req.body;
 
         const homebannerDetails = await HomeSchema.create({
-            project_name, redirect_link, banner_img, is_active, created_at
+            project_name, redirect_link, banner_img:req.file.path, is_active, created_at
         });
         if (homebannerDetails) {
             res.status(201).json(homebannerDetails);
@@ -182,13 +185,7 @@ const homeBanner = asyncHandler(async (req, res) => {
             res.status(400);
             throw new Error('Invalid data');
         }
-    }
-    else {
-        res.status(403);
-        throw new Error('permission denied');
-    }
-
-})
+    })
 
 const getHomeBanner = asyncHandler(async (req, res) => {
     const getallHomeBanner = await HomeSchema.findAll({ where: { is_active: '1' } });
@@ -251,6 +248,22 @@ const deleteProjectFiles = asyncHandler(async (req, res) => {
     res.status(200).json({ message: 'Project file and associated file deleted successfully.' });
 })
 
+const activateHomeBanner =  asyncHandler(async (req, res) => {
+     const home = await HomeSchema.findByPk(req.body.id)
+     console.log(home);
+     if (!home) {
+        return res.status(404).json({ message: 'Home Banner not found' });
+      }
+
+      await home.update({ is_active :'1' });
+      await home.save();
+  
+      return res.status(200).json({ message: 'this Banner activated in live website' });
+})
+const activateHomeBanners =  asyncHandler(async (req, res) => {
+   
+})
+
 export {
     authUser,
     registerUser,
@@ -262,5 +275,6 @@ export {
     getHomeBanner,
     addProjectFiles,
     viewProjectFiles,
-    deleteProjectFiles
+    deleteProjectFiles,
+    activateHomeBanner
 }
