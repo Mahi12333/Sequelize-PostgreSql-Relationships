@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
-import { Material, Place, Amenity, Commission, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
+import Myfeeds from '../models/myfeedsModel.js';
+import homeBannerSliderM from '../models/homebannersliderModel.js';
 
 
 const myfeeds = asyncHandler(async (req, res) => {
@@ -18,7 +19,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 });
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await MyFeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MyfeedsData)
     {
@@ -65,11 +66,23 @@ const getHomeBannerSlider=asyncHandler(async(req, res)=>{
         res.status(403).json({ message: 'data is not available' });
     }
 });
+const AddLikesFeeds = asyncHandler(async(req, res)=>{
+    const user_id = req.body.user_id ? req.body.user_id : '';
+    const project_id = req.body.project_id ? req.body.project_id : '';
+    if(!user_id)
+    {
+        res.status(403).json({ message: 'User ID Mandatory.' });
+    }
+    if(!project_id)
+    {
+        res.status(403).json({ message: 'Project ID Mandatory.' });
+    }
+});
 
 export {
     myfeeds,
     GetMyFeeds,
     GetMyFeedsDraft,
-    homeBannerSliders,
+    homeBannerSlider,
     getHomeBannerSlider
 }
