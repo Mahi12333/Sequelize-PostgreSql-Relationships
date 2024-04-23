@@ -1,7 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Myfeeds from '../models/myfeedsModel.js';
 import homeBannerSliderM from '../models/homebannersliderModel.js';
-
+import UserLikes from '../models/likeModel.js';
 
 const myfeeds = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
@@ -20,7 +20,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
     const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
-    //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
+    
     if(MyfeedsData)
     {
         res.status(200).json({message: 'All Data List.', data:MyfeedsData });
@@ -84,5 +84,6 @@ export {
     GetMyFeeds,
     GetMyFeedsDraft,
     homeBannerSlider,
-    getHomeBannerSlider
+    getHomeBannerSlider,
+    AddLikesFeeds
 }

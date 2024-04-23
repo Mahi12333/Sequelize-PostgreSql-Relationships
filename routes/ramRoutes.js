@@ -1,5 +1,5 @@
 import express from "express"
-import { myfeeds, GetMyFeeds, GetMyFeedsDraft, homeBannerSlider, getHomeBannerSlider} from "../controllers/ramController.js";
+import { myfeeds, GetMyFeeds, GetMyFeedsDraft, homeBannerSlider, getHomeBannerSlider, AddLikesFeeds} from "../controllers/ramController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import multer from "multer";
 import { adminChecker } from "../middleware/adminMiddleware.js";
