@@ -1,12 +1,12 @@
 import asyncHandler from 'express-async-handler';
-import Myfeeds from '../models/myfeedsModel.js';
+import MyfeedsMo from '../models/myfeedsModel.js';
 import homeBannerSliderM from '../models/homebannersliderModel.js';
 import UserLikes from '../models/likeModel.js';
 
 const myfeeds = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
         let filePath = file.path.replace(/\\/g, '/');   
-        const user = await Myfeeds.create({
+        const user = await MyfeedsMo.create({
             project_name:req.body.project_name, 
             caption:req.body.caption, 
             project_type:req.body.project_type, 
@@ -19,7 +19,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 });
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyfeedsMo.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
     
     if(MyfeedsData)
     {
@@ -32,7 +32,7 @@ const GetMyFeeds = asyncHandler(async (req, res)=>{
 });
 
 const GetMyFeedsDraft = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'0'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyfeedsMo.findAll({ where: {'status':'1', 'is_publish':'0'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MyfeedsData)
     {
