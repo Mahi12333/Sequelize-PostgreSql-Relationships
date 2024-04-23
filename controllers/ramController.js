@@ -1,6 +1,5 @@
 import asyncHandler from 'express-async-handler';
-import Myfeeds from '../models/myfeedsModel.js';
-import homeBannerSliderM from '../models/homebannersliderModel.js';
+import { Material, Place, Amenity, Commission, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
 
 
 const myfeeds = asyncHandler(async (req, res) => {
@@ -19,7 +18,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 });
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyFeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MyfeedsData)
     {
@@ -32,7 +31,7 @@ const GetMyFeeds = asyncHandler(async (req, res)=>{
 });
 
 const GetMyFeedsDraft = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'0'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyFeeds.findAll({ where: {'status':'1', 'is_publish':'0'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MyfeedsData)
     {
@@ -43,11 +42,11 @@ const GetMyFeedsDraft = asyncHandler(async (req, res)=>{
     }
 
 });
-const homeBannerSlider = asyncHandler(async (req, res) => {
+const homeBannerSliders = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
         let filePath = file.path.replace(/\\/g, '/');
         console.log(file);   
-        const user = await homeBannerSliderM.create({
+        const user = await HomeBannerSlider.create({
             banner_title:req.body.banner_title, 
             images_name:file.filename,
             images_path:filePath
@@ -71,6 +70,6 @@ export {
     myfeeds,
     GetMyFeeds,
     GetMyFeedsDraft,
-    homeBannerSlider,
+    homeBannerSliders,
     getHomeBannerSlider
 }

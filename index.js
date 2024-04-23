@@ -7,7 +7,7 @@ import userRoutes from './routes/userRoutes.js';
 import ramRoutes from './routes/ramRoutes.js';
 import cookieParser from "cookie-parser";
 import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
-import bodyParser from "body-parser";
+
 
 
 dotenv.config()
@@ -53,7 +53,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(notFound);
 app.use(errorHandler);
-sequelize.sync({ logging: console.log })
+sequelize.sync()
 app.listen(port , () => console.log(`Server started on port ${port}`));
 
 // /zassj

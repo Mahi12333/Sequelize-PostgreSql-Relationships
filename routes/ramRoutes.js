@@ -1,5 +1,5 @@
 import express from "express"
-import { myfeeds, GetMyFeeds, GetMyFeedsDraft, homeBannerSlider, getHomeBannerSlider} from "../controllers/ramController.js";
+import { myfeeds, GetMyFeeds, GetMyFeedsDraft, homeBannerSliders, getHomeBannerSlider} from "../controllers/ramController.js";
 import { protect } from "../middleware/authMiddleware.js";
 import multer from "multer";
 import { adminChecker } from "../middleware/adminMiddleware.js";
@@ -39,7 +39,7 @@ const router = express.Router()
 router.post('/myfeeds', upload.array('assets_banner', 1), myfeeds);
 router.get('/myfeeds/active', GetMyFeeds);
 router.get('/myfeeds/draft', GetMyFeedsDraft);
-router.post('/slider', uploadslider.array('banner', 1), homeBannerSlider);
+router.post('/slider', uploadslider.array('banner', 1), homeBannerSliders);
 router.get('/slider', getHomeBannerSlider);
 
 export default router;

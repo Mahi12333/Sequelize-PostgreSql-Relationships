@@ -1,12 +1,14 @@
 
 import asyncHandler from 'express-async-handler'
-import User from '../models/userModel.js';
 import generatedToken from '../utils/generatedToken.js';
 import bcrypt from "bcryptjs"
 import jwt from "jsonwebtoken"
-import HomeSchema from '../models/homeModel.js';
-import ProjectDesignType from '../models/ProjectDesignModel.js';
+import { Material, Place, Amenity, Commission, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
 import fs from 'fs/promises'
+
+
+
+
 
 
 
@@ -259,7 +261,7 @@ const activateHomeBanner =  asyncHandler(async (req, res) => {
       return res.status(200).json({ message: 'this Banner activated in live website' });
 })
 const activateHomeBanners =  asyncHandler(async (req, res) => {
-     
+   
 })
 
 export {

@@ -2,8 +2,7 @@ import { DataTypes } from 'sequelize';
 // Path to the database configuration file
 import { sequelize } from "../config/db.js";
 
-const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database'); // Assuming you have a database configuration file
+
 
 const Project = sequelize.define('Project', {
   id: {
