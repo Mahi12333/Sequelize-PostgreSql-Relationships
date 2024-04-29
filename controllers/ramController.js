@@ -1,12 +1,14 @@
 import asyncHandler from 'express-async-handler';
+
 import Myfeeds from '../models/myfeedsModel.js';
 import { Material, Place, Amenity, Commission,ProjectAmenity, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
 import UserLikes from '../models/likeModel.js';
 
+
 const myfeeds = asyncHandler(async (req, res) => {
     for (const file of req.files){ 
         let filePath = file.path.replace(/\\/g, '/');   
-        const user = await Myfeeds.create({
+        const user = await MyFeeds.create({
             project_name:req.body.project_name, 
             caption:req.body.caption, 
             project_type:req.body.project_type, 
@@ -56,7 +58,7 @@ const homeBannerSliders = asyncHandler(async (req, res) => {
     res.status(201).json({ message: 'Slider home banner Submitted successfully' });    
 });
 const getHomeBannerSlider=asyncHandler(async(req, res)=>{
-    const MybannserData = await homeBannerSliderM.findAll({ where: {'is_active':'1'} },{order: [['id', 'ASC']]});
+    const MybannserData = await HomeBannerSlider.findAll({ where: {'is_active':'1'} },{order: [['id', 'ASC']]});
     //const MyfeedsData = await Myfeeds.findAll({order: [['id', 'ASC']]});
     if(MybannserData)
     {
@@ -77,6 +79,21 @@ const AddLikesFeeds = asyncHandler(async(req, res)=>{
     {
         res.status(403).json({ message: 'Project ID Mandatory.' });
     }
+    const checklike = await UserLikes.findOne({where: {'user_id':user_id, 'pid':project_id, 'type':'feeds'}});
+    if(checklike)
+    {
+        await UserLikes.destroy({where:{'user_id':user_id, 'pid':project_id, 'type':'feeds'}});
+        res.status(200).json({message: 'Unlike.'});
+    }
+    else{
+        const user = await UserLikes.create({
+            user_id:user_id, 
+            pid:project_id,
+            type:'feeds'
+        });
+        res.status(200).json({message: 'Like.'});
+    }
+    
 });
 
 export {

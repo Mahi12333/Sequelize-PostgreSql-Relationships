@@ -30,3 +30,11 @@ Project.hasMany(Commission, { foreignKey: 'project_id' });
 
 
 export  {Material,Place,ProjectAmenity,Amenity,Commission,HomeBannerSlider,HomeSchema,MyFeeds,Offer,Payment,ProjectDesignType,Project,User}
+=======
+import UserLikes from "./likeModel.js";
+
+
+
+
+export  {Material,Place,Amenity,Commission,HomeBannerSlider,HomeSchema,MyFeeds,Offer,Payment,ProjectDesignType,Project,User, UserLikes}
+>>>>>>> bc7eeb33097dd1b771f829fc8b8551ec897e3a02
