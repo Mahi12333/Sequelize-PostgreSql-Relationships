@@ -1,6 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Myfeeds from '../models/myfeedsModel.js';
-import homeBannerSliderM from '../models/homebannersliderModel.js';
+import { Material, Place, Amenity, Commission,ProjectAmenity, HomeBannerSlider, HomeSchema, MyFeeds, Offer, Payment, ProjectDesignType, Project, User } from '../models/index.js';
 import UserLikes from '../models/likeModel.js';
 
 const myfeeds = asyncHandler(async (req, res) => {
@@ -19,7 +19,7 @@ const myfeeds = asyncHandler(async (req, res) => {
 });
 
 const GetMyFeeds = asyncHandler(async (req, res)=>{
-    const MyfeedsData = await Myfeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
+    const MyfeedsData = await MyFeeds.findAll({ where: {'status':'1', 'is_publish':'1'} },{order: [['id', 'ASC']]});
     
     if(MyfeedsData)
     {
@@ -83,7 +83,7 @@ export {
     myfeeds,
     GetMyFeeds,
     GetMyFeedsDraft,
-    homeBannerSlider,
+    homeBannerSliders,
     getHomeBannerSlider,
     AddLikesFeeds
 }

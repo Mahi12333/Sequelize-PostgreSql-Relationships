@@ -10,11 +10,11 @@ const Project = sequelize.define('Project', {
     primaryKey: true,
     autoIncrement: true
   },
-  project_id: {
+  project_name: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  project_name: {
+  project_banner: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -58,13 +58,14 @@ const Project = sequelize.define('Project', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  amenities: {
-    type: DataTypes.STRING,
-    allowNull: false
-  },
+
   commission: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  step:{
+      type: DataTypes.STRING,
+      allowNull: false
   },
   is_publish: {
     type: DataTypes.STRING,
@@ -78,6 +79,8 @@ const Project = sequelize.define('Project', {
   tableName: 'tbl_projects', // Set the table name explicitly to match your existing table
   timestamps: true // Set timestamps to false if you don't have createdAt and updatedAt columns
 });
+
+// Project.sync({alter:true})
 
 
 

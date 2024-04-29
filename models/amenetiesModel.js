@@ -2,6 +2,7 @@ import { DataTypes } from "sequelize";
 import { sequelize } from "../config/db.js";
 
 
+
 const Amenity = sequelize.define('Amenity', {
     id: {
       type: DataTypes.INTEGER,
@@ -14,7 +15,7 @@ const Amenity = sequelize.define('Amenity', {
     },
     images: {
       type: DataTypes.STRING, // Assuming images are stored as JSON data
-      allowNull: true // Change to false if images are required
+      allowNull: false // Change to false if images are required
     },
     is_active: {
       type: DataTypes.STRING,
@@ -25,5 +26,7 @@ const Amenity = sequelize.define('Amenity', {
     tableName: 'tbl_amenitities', // Set the table name explicitly to match your existing table
     timestamps: false // Set timestamps to false if you don't have createdAt and updatedAt columns
   });
+ 
+
 
   export default Amenity

@@ -16,13 +16,15 @@ const Place = sequelize.define('Place', {
       allowNull: false
     },
     place_time: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING,
       allowNull: false
     }
   }, {
     tableName: 'tbl_places', // Set the table name explicitly to match your existing table
     timestamps: false // Set timestamps to false if you don't have createdAt and updatedAt columns
   });
+  // Place.sync({force:true})
+
 
   export default Place
 

@@ -13,17 +13,13 @@ const Commission = sequelize.define('Commission', {
       allowNull: false
     },
     commission: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     description: {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    commission_type: {
-      type: DataTypes.STRING,
-      allowNull: false
-    }
   }, {
     tableName: 'tbl_commission', // Set the table name explicitly to match your existing table
     timestamps: false // Set timestamps to false if you don't have createdAt and updatedAt columns

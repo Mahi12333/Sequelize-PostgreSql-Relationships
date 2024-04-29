@@ -25,12 +25,10 @@ const Material = sequelize.define('Material', {
     }
 },
     {
-        // tableName: 'tbl_marketing_material', // Set the table name explicitly to match your existing table
+        tableName: 'tbl_marketing_material', // Set the table name explicitly to match your existing table
         timestamps: false // Set timestamps to false if you don't have createdAt and updatedAt columns
     }
 );
-Material.sync().then(() => {
-    console.log('table created');
-  });
+
   
 export default Material

@@ -12,7 +12,7 @@ const Payment = sequelize.define('Payment', {
       allowNull: false
     },
     installment: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false
     },
     notes: {
@@ -23,5 +23,5 @@ const Payment = sequelize.define('Payment', {
     tableName: 'tbl_payment', // Set the table name explicitly to match your existing table
     timestamps: false // Set timestamps to false if you don't have createdAt and updatedAt columns
   });
-
+  
   export default Payment

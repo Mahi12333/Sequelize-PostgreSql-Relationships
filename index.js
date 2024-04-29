@@ -26,13 +26,7 @@ connectDB()
 app.use(cookieParser());
 
 
-app.use(cors((
-    {
-        origin:[""],
-        credentials:true,
-        methods:["POST","GET","PUT"]
-    }
-)))
+app.use(cors())
 
 app.use('/api/users', userRoutes);
 app.use('/api/users', ramRoutes);
@@ -53,7 +47,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use(notFound);
 app.use(errorHandler);
-sequelize.sync()
+
 app.listen(port , () => console.log(`Server started on port ${port}`));
 
 // /zassj
