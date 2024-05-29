@@ -3,11 +3,14 @@ import path from "path"
 import dotenv from "dotenv"
 import cors from "cors"
 import {connectDB, sequelize} from "./config/db.js";
-import userRoutes from './routes/userRoutes.js';
-import ramRoutes from './routes/ramRoutes.js';
+import userRoutes from './routes/userRouter.js';
 import cookieParser from "cookie-parser";
-import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
-
+import postRoutes from './routes/postRoute.js';
+import testRoutes from './routes/testRoute.js';
+import commentRoutes from './routes/commentRoute.js';
+import categoryRoutes from './routes/categoryRoute.js';
+import addressRoutes from './routes/addressRoute.js';
+import postCategoryRoutes from './routes/postCategoryRoute.js'
 
 
 dotenv.config()
@@ -29,8 +32,12 @@ app.use(cookieParser());
 app.use(cors())
 
 app.use('/api/users', userRoutes);
-app.use('/api/users', ramRoutes);
-
+app.use('/api/users',postRoutes);
+app.use('/api/users',testRoutes);
+app.use('/api/users',commentRoutes)
+app.use('/api/users',categoryRoutes);
+app.use('/api/users',addressRoutes);
+app.use('/api/users',postCategoryRoutes);
 
 const __dirname = path.resolve();
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
@@ -45,10 +52,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 // }
 
 
-app.use(notFound);
-app.use(errorHandler);
 
-//sequelize.sync()
+
+// sequelize.sync()
 
 app.listen(port , () => console.log(`Server started on port ${port}`));
 
